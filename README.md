@@ -1,5 +1,7 @@
 # Telerilevamento-2026 📡
 
+![james-webb-space-telescope-orbits-above-earth-scientific-exploration-universe-advanced-tech-astronomy-travel-probe-researches-385001957](https://github.com/user-attachments/assets/281c9c33-a35a-4e6a-8b90-cdb8709b1fa6)
+
 
 
 ## Cos'è? ❓
