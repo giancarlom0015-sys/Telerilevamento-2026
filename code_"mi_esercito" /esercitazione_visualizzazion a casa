@@ -1,0 +1,44 @@
+# installo i pacchetti se serve altrimenti richiami le librerie
+
+library(terra) 
+library(imageRy)
+library(devtools)
+library(viridis)
+library(ggplot2)
+library(patchwork)
+library(GGally)
+
+#usiamo questa funzione per visualizzare i file nel nostro dataset
+
+im.list()
+
+# una volta fatto questo decido il file immagine che ho e vado a importarlo.
+# il file importato proviene da github(credo boh) comunque per farlo arrivare da github e non dal CRAN,
+# c'è bisgno didevtools che in pratica lo prende e lo rende disponibile su R
+
+# con la funizione im.import ci limitermo al solo importare l' immagine e non a visualizzarla.
+
+b2 <- im.import("sentinel.dolomites.b2.tif") 
+
+# per visualizzare l' immagine si usa plot(b2)
+
+plot(b2)
+
+# ora vogliamo cambiare colore? no? vabbe lo faremo comunque.
+# usiamo il sito Rchart https://r-charts.com/colors/ per avere i colori desiderati.
+# inseriamo il numero del colore copiando e incollando dal sito. per esempio voglio aggiungere il "tomato, turquoise, violetred.
+# il numero (100) sta a indicare le sfumature che ci saranno, immagina una colonna di 100 sfumature che si sviluppano fra tomato, turquoise, violetred 
+
+# fai comunque molto attenzione alla punteggiatura che è quella che ti frega
+
+cl <- colorRampPalette(c("tomato", "turquoise", "violetred"))(100)
+plot(b2, col=cl) 
+
+# con questa funzione avresti solamente 3 colori e ovviamente pare una roba strana 
+
+cl <- colorRampPalette(c("tomato", "turquoise", "violetred"))(3)
+> plot(b2, col=cl)
+
+
+
+
