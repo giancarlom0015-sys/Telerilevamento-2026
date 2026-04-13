@@ -132,6 +132,15 @@ im.plotRGB(sentinel, r=4, g=3, b=2) # false colors
 plot(sentinel[[4]])
 im.plotRGB(sentinel, r=4, g=3, b=2) # false colors
 
+#la prossima invece mettiamo NIR on green, non cambia nulla l' obiettivo è lo stesso cambia forse il contrasto
+# NIR on green
+
+im.plotRGB(sentinel, r=3, g=4, b=2) # false colors
+im.plotRGB(sentinel, r=3, g=2, b=4) # false colors, anche questa stessa roba
+
+
+
+
 
 
 
