@@ -99,9 +99,43 @@ plot(sentinel, col=inferno(100))
 # Il simbolo $ serve a "entrare" nell'oggetto principale per estrarre e utilizzare solo una sua parte specifica (come una singola banda spettrale).
 
 #il fatto è che comunque questo comando non mi va quindi ho provaro a scrivere > sentinel su R e mi ha detto come si chiamano i file,
-# quindi ho preso il quarto che si chiama fileb0843821981.tif e inserito
+# quindi ho preso il quarto che si chiama fileb0843821981.tif e inserito al posto del nome del file 
 
-plot(sentinel$sentinel.dolomites.b8)
+plot(sentinel$sentinel.dolomites.b8) 
+
+#a seguire quindi tutti le nostre immagini sono state divise in layer: # layer1=b2, layer2=b3, layer3=b4, layer4=b8
+# con questo comando posso decidere di visualizzarne uno in particolare
+
+plot(sentinel[[4]])
+plot(sentinel[[2]])
+
+# proseguiamo con la fase RGB uniamo ogni oggetto importato in una funzione 
+
+sentinel <- c(b2, b3, b4, b8)
+
+# a questo punto è importante sapere che a ogni layer è assegnato una banda dello spettro
+# 1=b2 blue
+# 2=b3 green
+# 3=b4 red
+# 4=b8 nir
+# ora plottando RGB possiamo ottenere i "natural colors" oppure i "false colors" che sarebbero colori modificati
+# il false color è ottimo perche col NIR(4) sul Rosso abbiamo maggiore contrasto
+#puoi usare im.multiframe, solo che per qualche ragione non mi funziona a dovere quindi uso par(mfrow=c(1,2))
+
+par(mfrow=c(1,2))# è faoltativo, questo lo usi solo se devi visualizzare insieme (!!PER QUALCHE RAGIONE ALTERNA SOLO LE IMMAGINI!!)
+
+im.plotRGB(sentinel, r=3, g=2, b=1) # natural colors 
+im.plotRGB(sentinel, r=4, g=3, b=2) # false colors
+
+#la seguente si usa quando tutto ciò che è vegetazione viva e sana apparirà di un rosso acceso.
+
+plot(sentinel[[4]])
+im.plotRGB(sentinel, r=4, g=3, b=2) # false colors
+
+
+
+
+
 
 
 
