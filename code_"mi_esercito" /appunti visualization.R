@@ -138,6 +138,17 @@ im.plotRGB(sentinel, r=4, g=3, b=2) # false colors
 im.plotRGB(sentinel, r=3, g=4, b=2) # false colors
 im.plotRGB(sentinel, r=3, g=2, b=4) # false colors, anche questa stessa roba
 
+#facciamo il plotRGB col pacchetto terra ovviamente non c'è da scrivere Red, Green, Blue
+#solo che se usiamo plotRGB che fa parte del pacchetto terra dobbiamo notare che fra i suoi pacchetti c'è
+# stretch= la prossima fuznione sul pc darà errore perchè semplicemente i dati del satellite arrivano fino a 1760
+#          mentre i dati del pc sono 0:255, questo pacchetto non fa altro che ridistribuire i dati in un certo range
+#          stretch="lin" allunga i valori in modo proporzionale, ed è considerato più naturale.
+#          stretch="hist" ridistribuisce i colori per fare in modo che ogni sfumatura sia visibile inpratica è 
+#                         ottimo per vedere contrasto con laghi, rocce e fiumi rispetto alla vegetazione.
+
+plotRGB(sentinel, 4, 2, 3) 
+plotRGB(sentinel, 4, 2, 3, stretch="lin") 
+plotRGB(sentinel, 4, 2, 3, stretch="hist") 
 
 
 
