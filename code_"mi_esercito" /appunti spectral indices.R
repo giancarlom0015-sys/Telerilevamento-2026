@@ -16,7 +16,7 @@ mato1992 <- flip(mato1992)
 # va più a conto suo, è più compatto rispetto agli altri(probabilemtente perché le piante riflettono moltissimo NIR ad a bande più larghe
 #lo si fa con questa funzione
 
-im.multiframe(1, 3) # che per qualche ragione non mi va mai
+im.multiframe(1,3) # che per qualche ragione non mi va mai( ho scoperto perchè, è perchè mettevo lo spazio)
 hist(mato1992[[1]])
 hist(mato1992[[2]])
 hist(mato1992[[3]])
@@ -75,6 +75,59 @@ im.plotRGB(mato2006, 2, 3, 1)
 
 dvi1992 <- mato1992[[1]] - mato1992[[2]]
 
+# -------------------------------------------------------------------------
+# CALCOLO DELL'INDICE NDVI (Normalized Difference Vegetation Index)
+# -------------------------------------------------------------------------
+# L'NDVI è un indice telerilevato utilizzato per stimare la salute della 
+# vegetazione. Sfrutta la riflessione differenziale delle piante tra:
+# - NIR (Infrarosso Vicino): Riflesso fortemente dalle cellule fogliari.
+# - RED (Rosso): Assorbito dalla clorofilla per la fotosintesi.
+#
+# FORMULA: NDVI = (NIR - RED) / (NIR + RED)
+#
+# Nel codice seguente:
+# - mato1992[[1]] rappresenta la banda NIR
+# - mato1992[[2]] rappresenta la banda RED
+# - dvi1992 è la differenza semplice (NIR - RED) calcolata precedentemente
+#
+# INTERPRETAZIONE DEI VALORI:
+# - Vicino a +1: Vegetazione densa e sana
+# - Vicino a 0: Suolo nudo, rocce
+# - Valori negativi: Acqua o neve
+# -------------------------------------------------------------------------
 
+ndvi1992 <- dvi1992 / (mato1992[[1]] + mato1992[[2]])
+ndvi2006 <- dvi2006 / (mato2006[[1]] + mato2006[[2]])
+
+im.multiframe(1, 2)
+plot(ndvi1992, col=inferno(100))
+plot(ndvi2006, col=inferno(100))
+
+par(mfrow=c(1,2))
+plot(ndvi1992, col=inferno(100))
+plot(ndvi2006, col=inferno(100))
+
+#--------------------
+#tramite imageRy
+#--------------------
+
+# DVI by imageRy
+dvi1992 = im.dvi(mato1992, 1, 2)
+dvi2006 = im.dvi(mato2006, 1, 2)
+plot(dvi1992, col=inferno(100))
+plot(dvi2006, col=inferno(100))
+
+# NDVI via imageRy
+ndvi1992 = im.ndvi(mato1992, 1, 2)
+ndvi2006 = im.ndvi(mato2006, 1, 2)
+plot(ndvi1992, col=mako(100))
+plot(ndvi2006, col=mako(100))
+
+# Exercise: plot DVIs and NDVIs for the two dates in two rows and columns
+im.multiframe(2, 2)
+plot(dvi1992, col=inferno(100))
+plot(dvi2006, col=inferno(100))
+plot(ndvi1992, col=magma(100))
+plot(ndvi2006, col=magma(100))
 
 
