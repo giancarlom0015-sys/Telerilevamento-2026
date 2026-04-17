@@ -73,8 +73,8 @@ plot(ndvi[[1]], ndvi[[2]])
 # y = a + b, questa è "l'equazione della linea con abline troviamo l' intercetta della linea [abline(0, 1)]
 
 abline(0, 1 col="red")
- in questo caso però la linea non è dritta(obligua) perchè gli assi hanno una differenza
-cambiamo il nostro plot con un accorgimento, notiamo che
+# in questo caso però la linea non è dritta(obligua) perchè gli assi hanno una differenza
+# cambiamo il nostro plot con un accorgimento, notiamo che
 
 # x min 0.3
 # y max 0.9
