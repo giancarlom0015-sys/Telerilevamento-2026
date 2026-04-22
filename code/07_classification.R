@@ -79,8 +79,7 @@ perc2006 <- prop2006 * 100
  #e adesso abbiamo i dati per fare un grafico e creiamo un atabellina
 #dobbiamo crearci le tre colonne con data.frame
 tabout <- data.frame(
-  class=c("forest", "human")
+  class=c("forest", "human"),
   perc1992=c(83,17), #osserviamo i valori
   perc2006=c(45,55)
-
   )
