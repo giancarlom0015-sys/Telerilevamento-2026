@@ -1,5 +1,6 @@
 library(qrcode)
- 
+
+setwd("C:/Users/giancarlo/Downloads")
 url <- "https://github.com/giancarlom0015-sys/Telerilevamento-2026/new/main/code"
  
 qr <- qr_code(url)
