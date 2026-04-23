@@ -2,6 +2,8 @@
 
 library(terra)
 library(imageRy)
+library(ggplot2)#inseriti per fare grafici
+library(patchwork)
 # set wd
 setwd("C:/Users/giancarlo/Downloads")
 
@@ -83,3 +85,50 @@ tabout <- data.frame(
   perc1992=c(83,17), #osserviamo i valori
   perc2006=c(45,55)
   )
+#se poi scrivi tabout su R escono i dati inseriti della tabella
+#la funzione per fare dei plot dentro ggplot2 si chiama "ggplot"
+#abbiamo poi una funzione detta aesterichs che definiscono la X la Y e il colore interno, sulla pagina di aestetichs c'è scritto come fare
+#sulla x abbiamo 
+#sulla y abbiamo
+#aggiungiamo poi delle nuove funzioni con +
+#geom_bar si riferisce alla geometria ed è un'altra funzione di ggplot2
+#
+
+ggplot(tabout, aes(x=class, y=perc1992, color=class)) + 
+ geom_bar(stat="identity", fill="white") #posso inserire commento per definire a cosa serve
+
+#esercizio plot the bar for 2006
+ ggplot(tabout, aes(x=class, y=perc2006, color=class)) + 
+      geom_bar(stat="identity", fill="white") 
+
+#usare patchwork
+p1 <- ggplot(tabout, aes(x=class, y=perc1992, color=class)) + 
+ geom_bar(stat="identity", fill="white") +
+ ylim(c(0, 100)) +
+ theme(legend.position="none") +#per eliminare la legenda da questo grafico
+ theme_minimal()
+
+
+
+p2 <- ggplot(tabout, aes(x=class, y=perc2006, color=class)) + 
+      geom_bar(stat="identity", fill="white") +
+      ylim(c(0, 100)) +
+      theme_minimal()
+     
+
+#che poi posso patchare faceendo
+
+p1 + p2
+
+# il lfatto è che questi due usano due scale di X differenti
+ylim(c(0, 100)) #limits, e questo è da inserire ai due p1 e p2
+
+#su TITYVERSE ci sono riuniti tutti i pacchetti che desideri
+
+#si aggiunge poi unA FUNZIONE
+  theme(legend.position="none") #per eliminare la legenda da questo grafico
+
+#possiamo cambiare lo sfondo con theme_minimal()
+theme_minimal()
+
+
