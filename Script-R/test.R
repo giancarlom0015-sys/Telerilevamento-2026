@@ -1,6 +1,7 @@
 # PROGETTO DI MISURAZIONE DELLA QUANTITA DI CLOROFILLA
 
-# 1 Si calcolerà, multitemporal analysis, NDVI e EVI
+# 1 Si calcolerà, multitemporal analysis, 
+#
 # 2 grafici a seguire 
 # 3 conclusioni
 library(terra) # Pacchetto per l'analisi spaziale dei dati con vettori e dati raster
@@ -21,8 +22,9 @@ plot(sum24)
 sum16 <- rast("umbra_estate_2016.tif")
 plot(sum16)
 #per plottare a colori naturaliiiii eheeeheeeheh
-im.multiframe(3,3)
+im.multiframe(1,3)
 im.plotRGB(sum24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2024")
 im.plotRGB(wint24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Inverno 2024")
-im.plotRGB(sum16, r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2016")
+im.plotRGB(sum16,  r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2016")
+
 
