@@ -23,6 +23,6 @@ plot(sum16)
 #per plottare a colori naturaliiiii eheeeheeeheh
 im.multiframe(3,3)
 im.plotRGB(sum24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2024")
-im.plotRGB(wint24, r = 1, g = 2, b = 1, title = "Foresta Umbra - Inverno 2024")
+im.plotRGB(wint24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Inverno 2024")
 im.plotRGB(sum16, r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2016")
 
