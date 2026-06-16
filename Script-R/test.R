@@ -18,18 +18,18 @@ setwd("C:/Users/giancarlo/Desktop/TELERILEVAMENTO_ESAME")
 
 #importiamo le immagini
 wint24 <- rast("umbra_inverno_2024.tif")
-plot(wint24)
-
 sum24 <- rast("umbra_estate_2024.tif")
-plot(sum24) 
+sum18 <- rast("umbra_estate_2018.tif")
 
-sum16 <- rast("umbra_estate_2016.tif")
-plot(sum16)
+plot(wint24)
+plot(sum24)
+plot(sum18)
+
 #per plottare a colori naturaliiiii eheeeheeeheh
 im.multiframe(1,3)
 im.plotRGB(sum24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2024")
 im.plotRGB(wint24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Inverno 2024")
-im.plotRGB(sum16,  r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2016")
+im.plotRGB(sum18,  r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2018")
 dev.off()
 
 
@@ -39,18 +39,18 @@ dev.off()
 # Misura la quantità assoluta di vegetazione senza normalizzazionedvi_
 dvi_sum24 = sum24[["B8"]] - sum24[["B4"]] # Calcolo DVI estate 24
 dvi_wint24= wint24[["B8"]] - wint24[["B4"]] # Calcolo DVI inverno 24
-dvi_sum16 = sum16[["B8"]] - sum16[["B4"]] # Calcolo DVI estate 16
+dvi_sum18 = sum18[["B8"]] - sum18[["B4"]] # Calcolo DVI estate 16
 
 ddvi = dvi_wint24 - dvi_sum24 # Differenza DVI fra estate/inverno 24
-ddvi = dvi_sum16 - dvi_sum24 # Differenza DVI fra estati 16/24
+ddvi = dvi_sum18 - dvi_sum24 # Differenza DVI fra estati 16/24
 
 im.multiframe(2, 3)
 plot(dvi_wint24, main = "DVI Inverno 24' ", col=viridis::viridis(100)) # Visualizzazione DVI inverno
 plot(dvi_sum24, main = "DVI Estate 24' ", col=viridis::viridis(100)) # Visualizzazione DVI estate 24
-plot(dvi_sum16, main = "DVI Estate 16' ", col=viridis::viridis(100)) # Visualizzazione DVI estate 16
+plot(dvi_sum18, main = "DVI Estate 18' ", col=viridis::viridis(100)) # Visualizzazione DVI estate 16
 
 plot(ddvi, main = "ΔDVI estate/inverno 24' ", col=viridis::inferno(100)) 
-plot(ddvi, main = "ΔDVI estate 16'/24' ", col=viridis::(100)) 
+plot(ddvi, main = "ΔDVI estate 18'/24' ", col=viridis::(100)) 
 
 
 
