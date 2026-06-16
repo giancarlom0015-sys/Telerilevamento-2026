@@ -49,8 +49,26 @@ plot(dvi_wint24, main = "DVI Inverno 24' ", col=viridis::viridis(100)) # Visuali
 plot(dvi_sum24, main = "DVI Estate 24' ", col=viridis::viridis(100)) # Visualizzazione DVI estate 24
 plot(dvi_sum18, main = "DVI Estate 18' ", col=viridis::viridis(100)) # Visualizzazione DVI estate 16
 
-plot(ddvi, main = "ΔDVI estate/inverno 24' ", col=viridis::inferno(100)) 
-plot(ddvi, main = "ΔDVI estate 18'/24' ", col=viridis::(100)) 
+plot(ddvi, main = "ΔDVI Stagionale' ", col=viridis::inferno(100)) 
+plot(ddvi, main = "ΔDVI Temporale' ", col=viridis::inferno(100)) 
 
+# Indica la salute della vegetazione.
+# Valori vicini a 1: vegetazione sana e rigogliosa.
+# Valori vicini a 0 o negativi: suolo nudo, acqua o aree degradate.
 
+ndvi_wint24 = (wint24[["B8"]] - wint24[["B4"]]) / (wint24[["B8"]] + wint24[["B4"]]) 
+ndvi_sum24 = (sum24[["B8"]] - sum24[["B4"]]) / (sum24[["B8"]] + sum24[["B4"]])
+ndvi_sum18 = (sum18[["B8"]] - sum18[["B4"]]) / (sum18[["B8"]] + sum18[["B4"]]) 
+
+dndvi_stagionale = ndvi_sum24 - ndvi_wint24 #differenza NDVI
+dndvi_temporale = ndvi_sum24 - ndvi_sum18 
+
+im.multiframe(2,3)  #  Visualizzazione di un pannello grafico con 1 righa e 3 colonne
+plot(ndvi_wint24, main="NDVI Inverno 24' ", col=viridis::viridis(100))   #  Visualizzazione NDVI prima dell'incendio
+plot(ndvi_sum24, main="NDVI Estate 24'", col=viridis::viridis(100)) # Visualizzazione NDVI dopo l'incendio
+plot(ndvi_sum24, main="NDVI Estate 18'", col=viridis::viridis(100)) 
+
+plot(dndvi_stagionale, main="ΔNDVI Stagionale", col=viridis::plasma(100)) 
+plot(dndvi_temporale, main="ΔNDVI Temporale", col=viridis::plasma(100))
+dev.off() # Chiudere il pannello di visualizzazione delle immagini
 
