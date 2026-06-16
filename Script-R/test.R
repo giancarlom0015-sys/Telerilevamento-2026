@@ -63,12 +63,28 @@ ndvi_sum18 = (sum18[["B8"]] - sum18[["B4"]]) / (sum18[["B8"]] + sum18[["B4"]])
 dndvi_stagionale = ndvi_sum24 - ndvi_wint24 #differenza NDVI
 dndvi_temporale = ndvi_sum24 - ndvi_sum18 
 
-im.multiframe(2,3)  #  Visualizzazione di un pannello grafico con 1 righa e 3 colonne
-plot(ndvi_wint24, main="NDVI Inverno 24' ", col=viridis::viridis(100))   #  Visualizzazione NDVI prima dell'incendio
-plot(ndvi_sum24, main="NDVI Estate 24'", col=viridis::viridis(100)) # Visualizzazione NDVI dopo l'incendio
+im.multiframe(1,3)  #  Visualizzazione di un pannello grafico con 1 righa e 3 colonne
+plot(ndvi_wint24, main="NDVI Inverno 24' ", col=viridis::viridis(100)) 
+plot(ndvi_sum24, main="NDVI Estate 24'", col=viridis::viridis(100)) 
 plot(ndvi_sum24, main="NDVI Estate 18'", col=viridis::viridis(100)) 
 
-plot(dndvi_stagionale, main="ΔNDVI Stagionale", col=viridis::plasma(100)) 
-plot(dndvi_temporale, main="ΔNDVI Temporale", col=viridis::plasma(100))
-dev.off() # Chiudere il pannello di visualizzazione delle immagini
+im.multiframe(1,2)
+plot(dndvi_stagionale, main="ΔNDVI Stagionale", col=colorRampPalette(c("red", "white", "blue"))(100))  
+# qui si nota come c'è aumento della biomassa fogliare dall' inverno all' estate
+plot(dndvi_temporale, main="ΔNDVI Temporale", col=colorRampPalette(c("red", "white", "blue"))(100)) 
+#Segno Positivo : Significa che il valore del 2024 è più alto di quello del 2018. C'è stato un incremento del vigore vegetativo o della biomassa fogliare.
+#Segno Negativo : # Significa che il valore del 2024 è più basso del 2018. C'è stata una perdita di vigore, un potenziale degrado o uno stress idrico.
+#Intorno allo Zero : Significa che la Foresta Umbra è rimasta perfettamente stabile.XX
 
+dev.off() 
+
+
+EVI
+# Calcolo EVI estate 24
+evi_sum24 = 2.5 * ((sum24[[4]] - sum24[[3]]) / (sum24[[4]] + 6 * sum24[[3]] - 7.5 * sum24[[1]] + 1))
+evi_wint24 = 2.5 * ((wint24[[4]] - wint24[[3]]) / (wint24[[4]] + 6 * wint24[[3]] - 7.5 * wint24[[1]] + 1))
+evi_sum18 = 2.5 * ((sum18[[4]] - sum18[[3]]) / (sum18[[4]] + 6 * sum18[[3]] - 7.5 * sum18[[1]] + 1))
+
+plot(evi_wint24, main = "EVI Inverno 24'", col= viridis::viridis(100))
+plot(evi_sum24, main = "EVI Estate 24'", col= viridis::viridis(100))
+plot(evi_sum18, main = "EVI Estate 18'", col= viridis::viridis(100))
