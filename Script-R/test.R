@@ -49,6 +49,7 @@ plot(dvi_wint24, main = "DVI Inverno 24' ", col=viridis::viridis(100)) # Visuali
 plot(dvi_sum24, main = "DVI Estate 24' ", col=viridis::viridis(100)) # Visualizzazione DVI estate 24
 plot(dvi_sum18, main = "DVI Estate 18' ", col=viridis::viridis(100)) # Visualizzazione DVI estate 16
 
+im.multiframe(2,1)
 plot(ddvi, main = "ΔDVI Stagionale' ", col=viridis::inferno(100)) 
 plot(ddvi, main = "ΔDVI Temporale' ", col=viridis::inferno(100)) 
 
@@ -104,3 +105,4 @@ plot(evi_sum24, main = "EVI Estate 24'", col= viridis::viridis(100), range = c(-
 
 plot(devi_temporale, main = "ΔEVI Temporale", col=colorRampPalette(c("red","white","blue"))(100))
 # Values description: The range of values for EVI is -1 to 1, with healthy vegetation generally around 0.20 to 0.80.
+
