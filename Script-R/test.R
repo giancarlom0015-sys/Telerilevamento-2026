@@ -91,10 +91,10 @@ evi_sum18 = 2.5 * ((sum18[[4]] - sum18[[3]]) / (sum18[[4]] + 6 * sum18[[3]] - 7.
 
 devi_temporale = evi_sum24 - evi_sum18
 
-im.multiframe(2,3)
-plot(evi_wint24, main = "EVI Inverno 24'", col= viridis::viridis(100))
-plot(evi_sum24, main = "EVI Estate 24'", col= viridis::viridis(100))
-plot(evi_sum18, main = "EVI Estate 18'", col= viridis::viridis(100))
+im.multiframe(2,1)
+plot(evi_sum18, main = "EVI Estate 18'", col= viridis::viridis(100), range = c(-1, 1))
+plot(evi_sum24, main = "EVI Estate 24'", col= viridis::viridis(100), range = c(-1, 1))
+
 
 # Valori Alti 0.6 / 1.0 [Colore Verde/Giallo]: Foresta densa, massima presenza di clorofilla e chiome completamente chiuse
 # (Estate 2018 e 2024).
