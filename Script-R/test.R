@@ -96,11 +96,11 @@ plot(evi_wint24, main = "EVI Inverno 24'", col= viridis::viridis(100))
 plot(evi_sum24, main = "EVI Estate 24'", col= viridis::viridis(100))
 plot(evi_sum18, main = "EVI Estate 18'", col= viridis::viridis(100))
 
-plot(devi_temporale = "ΔEVI Temporale", col=ColorRampPalette(c("red", "green")(100))
-
-
 # Valori Alti 0.6 / 1.0 [Colore Verde/Giallo]: Foresta densa, massima presenza di clorofilla e chiome completamente chiuse
 # (Estate 2018 e 2024).
 #Valori Medi 0.2 / 0.0 [Colore Blu/Viola]: Vegetazione diradata, pascoli o foresta nel minimo stagionale 
 # (Inverno 2024 con i faggi spogli).
 #Valori Vicini a 0: Assenza di vegetazione (suolo nudo, roccia, asfalto, acqua)
+
+plot(devi_temporale, main = "ΔEVI Temporale", col=colorRampPalette(c("red","white","blue"))(100))
+# Values description: The range of values for EVI is -1 to 1, with healthy vegetation generally around 0.20 to 0.80.
