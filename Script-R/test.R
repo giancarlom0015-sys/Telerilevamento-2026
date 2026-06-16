@@ -32,7 +32,7 @@ im.plotRGB(wint24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Inverno 2024")
 im.plotRGB(sum18,  r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2018")
 dev.off()
 
-
+#======================================================================================================================0
 
 # Indice DVI ((Difference Vegetation Index))
 # NIR - RED
@@ -51,6 +51,10 @@ plot(dvi_sum18, main = "DVI Estate 18' ", col=viridis::viridis(100)) # Visualizz
 
 plot(ddvi, main = "ΔDVI Stagionale' ", col=viridis::inferno(100)) 
 plot(ddvi, main = "ΔDVI Temporale' ", col=viridis::inferno(100)) 
+
+
+#===================================================================================================================0
+ # NDVI
 
 # Indica la salute della vegetazione.
 # Valori vicini a 1: vegetazione sana e rigogliosa.
@@ -78,13 +82,25 @@ plot(dndvi_temporale, main="ΔNDVI Temporale", col=colorRampPalette(c("red", "wh
 
 dev.off() 
 
-
-EVI
+#===========================================================================================================================0
+# EVI
 # Calcolo EVI estate 24
 evi_sum24 = 2.5 * ((sum24[[4]] - sum24[[3]]) / (sum24[[4]] + 6 * sum24[[3]] - 7.5 * sum24[[1]] + 1))
 evi_wint24 = 2.5 * ((wint24[[4]] - wint24[[3]]) / (wint24[[4]] + 6 * wint24[[3]] - 7.5 * wint24[[1]] + 1))
 evi_sum18 = 2.5 * ((sum18[[4]] - sum18[[3]]) / (sum18[[4]] + 6 * sum18[[3]] - 7.5 * sum18[[1]] + 1))
 
+devi_temporale = evi_sum24 - evi_sum18
+
+im.multiframe(2,3)
 plot(evi_wint24, main = "EVI Inverno 24'", col= viridis::viridis(100))
 plot(evi_sum24, main = "EVI Estate 24'", col= viridis::viridis(100))
 plot(evi_sum18, main = "EVI Estate 18'", col= viridis::viridis(100))
+
+plot(devi_temporale = "ΔEVI Temporale", col=ColorRampPalette(c("red", "green")(100))
+
+
+# Valori Alti 0.6 / 1.0 [Colore Verde/Giallo]: Foresta densa, massima presenza di clorofilla e chiome completamente chiuse
+# (Estate 2018 e 2024).
+#Valori Medi 0.2 / 0.0 [Colore Blu/Viola]: Vegetazione diradata, pascoli o foresta nel minimo stagionale 
+# (Inverno 2024 con i faggi spogli).
+#Valori Vicini a 0: Assenza di vegetazione (suolo nudo, roccia, asfalto, acqua)
