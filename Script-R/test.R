@@ -71,7 +71,7 @@ dndvi_temporale = ndvi_sum24 - ndvi_sum18
 im.multiframe(1,3)  #  Visualizzazione di un pannello grafico con 1 righa e 3 colonne
 plot(ndvi_wint24, main="NDVI Inverno 24' ", col=viridis::viridis(100)) 
 plot(ndvi_sum24, main="NDVI Estate 24'", col=viridis::viridis(100)) 
-plot(ndvi_sum24, main="NDVI Estate 18'", col=viridis::viridis(100)) 
+plot(ndvi_sum18, main="NDVI Estate 18'", col=viridis::viridis(100)) 
 
 im.multiframe(1,2)
 plot(dndvi_stagionale, main="ΔNDVI Stagionale", col=colorRampPalette(c("red", "white", "blue"))(100))  
@@ -105,4 +105,14 @@ plot(evi_sum24, main = "EVI Estate 24'", col= viridis::viridis(100), range = c(-
 
 plot(devi_temporale, main = "ΔEVI Temporale", col=colorRampPalette(c("red","white","blue"))(100))
 # Values description: The range of values for EVI is -1 to 1, with healthy vegetation generally around 0.20 to 0.80.
+
+
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+# ANALISI MULTITEMPORALE
+
+soglia = 0.5 # Soglia NDVI per distinguere vegetazione/non vegetazione
+classi_invernale=classify(ndvi_,  rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), ncol=3, byrow=TRUE))
+classi_estiva=classify(ndvi_post, rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), ncol=3, byrow=TRUE))
 
