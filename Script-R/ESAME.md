@@ -12,7 +12,7 @@ La riserva naturale Foresta Umbra è un'area naturale protetta posta all'interno
 lo scopo del progetto è quindi quello di analizzare le variazioni multitemporali della copertura vegetale attravarso diversi indici al fine di valutare lo stato di salute e la risposta dell' ecosistemi forestale.
 
 <p align="center">
-  <img src="img/area_studio.jpg" width="1000">
+  <img src="Script-R/img/area_studio.jpg" width="1000">
 </p>
 Le immagini appartengono ai seguenti archi temporali;
 - Estate 01/07/2018 - 31/08/2018
