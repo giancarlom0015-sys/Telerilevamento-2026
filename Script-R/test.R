@@ -12,7 +12,7 @@ library(terra) # Pacchetto per l'analisi spaziale dei dati con vettori e dati ra
 library(imageRy) # Pacchetto per manipolare, visualizzare ed esportare immagini raster in R
 library(viridis) # Pacchetto per cambiare le palette di colori anche per chi è affetto da colorblindness
 library(ggplot2)
-
+library(patchwork)
 #impostiamo la working directory
 setwd("C:/Users/giancarlo/Desktop/TELERILEVAMENTO_ESAME")
 
@@ -87,8 +87,8 @@ dev.off()
 # EVI
 # Calcolo EVI estate 24
 evi_sum24 = 2.5 * ((sum24[[4]] - sum24[[3]]) / (sum24[[4]] + 6 * sum24[[3]] - 7.5 * sum24[[1]] + 1))
-evi_wint24 = 2.5 * ((wint24[[4]] - wint24[[3]]) / (wint24[[4]] + 6 * wint24[[3]] - 7.5 * wint24[[1]] + 1))
 evi_sum18 = 2.5 * ((sum18[[4]] - sum18[[3]]) / (sum18[[4]] + 6 * sum18[[3]] - 7.5 * sum18[[1]] + 1))
+
 
 devi_temporale = evi_sum24 - evi_sum18
 
@@ -103,7 +103,7 @@ plot(evi_sum24, main = "EVI Estate 24'", col= viridis::viridis(100), range = c(-
 # (Inverno 2024 con i faggi spogli).
 #Valori Vicini a 0: Assenza di vegetazione (suolo nudo, roccia, asfalto, acqua)
 
-plot(devi_temporale, main = "ΔEVI Temporale", col=colorRampPalette(c("red","white","blue"))(100))
+plot(devi_temporale, main = "ΔEVI Temporale", col=colorRampPalette(c("red","white","darkgreen"))(100))
 # Values description: The range of values for EVI is -1 to 1, with healthy vegetation generally around 0.20 to 0.80.
 
 
@@ -111,8 +111,76 @@ plot(devi_temporale, main = "ΔEVI Temporale", col=colorRampPalette(c("red","whi
 #XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 # ANALISI MULTITEMPORALE
+NDVI
 
-soglia = 0.5 # Soglia NDVI per distinguere vegetazione/non vegetazione
-classi_invernale=classify(ndvi_,  rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), ncol=3, byrow=TRUE))
-classi_estiva=classify(ndvi_post, rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), ncol=3, byrow=TRUE))
+soglia = 0.7 # Soglia NDVI per distinguere vegetazione/non vegetazione
+classe_invernale=classify(ndvi_wint24,  rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), ncol=3, byrow=TRUE))
+classe_estiva24=classify(ndvi_sum24, rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), ncol=3, byrow=TRUE))
+classe_estiva18=classify(ndvi_sum18, rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), ncol=3, byrow=TRUE))
 
+im.multiframe(3,1)
+plot(classe_invernale,  main="Classi NDVI Invernale24",  col=c("red","green"))
+plot(classe_estiva24, main="Classi NDVI Estiva24", col=c("red","green"))
+plot(classe_estiva18, main="Classi NDVI Estiva18", col=c("red","green"))
+
+
+freq_24 = freq(classe_estiva24) 
+freq_18 = freq(classe_estiva18)
+freq_wint = freq(classe_invernale)
+
+perc_24 = freq_24$count  * 100 / ncell(classe_estiva24)
+perc_18 = freq_18$count * 100 / ncell(classe_estiva18)
+perc_wint = freq_wint$count * 100 / ncell(classe_invernale)
+
+tabella = data.frame(
+  Classe = c("Vegetazione Diradata / Suolo", "Foresta matura"),
+  Estate_2018 = round(perc_18,2),
+  Estate_2024= round(perc_24,2),
+  Inverno = round(perc_wint,2)
+  
+ )
+  print(tabella)
+
+#Classe                         sum18     sum24    wint
+#1 Vegetazione Diradata / Suolo  16.1       22    14.44
+#2               Foresta matura  83.9       78    85.56
+
+#========================================================================================================================
+# GRAFICO COMPARATIVO GGPLOT NDVI
+
+df_long = melt(tabella, id.vars="Classe",                       # Converte la tabella in formato lungo per il grafico
+                variable.name="Periodo",
+                value.name="Percentuale")
+
+                                
+ggplot(df_long, aes(x=Classe, y=Percentuale, fill=Periodo)) +   # Crea Grafico assegnando X, Y e colore
+  geom_bar(stat="identity", position="dodge", color = "black") +  # Barre affiaancate per confrontare i periodi
+  geom_text(aes(label=round(Percentuale,1)),                    # Aggiunge i valori sulle barre
+            position=position_dodge(width=0.9),                 # Allinea il testo sulle barre affiancate
+            vjust=-0.25,                                        # Sposta leggermente sopra le barre
+            size=3) +                                           # Dimensione testo
+  scale_fill_manual(values = c("Estate_2018" = "#008B00",  # Colori distinti per i periodi
+                               "Estate_2024" = "#00FF00",
+                               "Inverno" = "lightskyblue")) +                                      
+  ylim(0,100) +                                                 # Limiti asse Y 0-100%
+  labs(title="Copertura forestale (NDVI > 0.6)",              # Titoli ed etichette
+       y="Percentuale (%)", x="Classe NDVI") +
+  theme_grey()        
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+ #ANALISI MULTITEMPORALE EVI (ENHANCED VEGETATION HINDEX)
+
+soglia = 0.5 # Soglia EVI per distinguere vegetazione/non vegetazione
+
+classe_estiva24=classify(evi_sum24, rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), ncol=3, byrow=TRUE))
+classe_estiva18=classify(evi_sum18, rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), ncol=3, byrow=TRUE))
+
+im.multiframe(1,2)
+plot(evi_sum18, main="Classi EVI Estiva18", col=c("red","green"))
+plot(evi_sum24, main="Classi EVI Estiva24", col=c("red","green"))
+
+im.multiframe(1,2)
+plot(classe_estiva18, main="Classi EVI Estiva18", col=c("red","green"))
+plot(classe_estiva24, main="Classi EVI Estiva24", col=c("red","green"))
