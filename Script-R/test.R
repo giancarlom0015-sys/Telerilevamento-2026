@@ -1,31 +1,32 @@
-# PROGETTO DI MISURAZIONE DELLA QUANTITA DI CLOROFILLA
+# PROGETTO DI MONITORAGGIO DELLO STATO DELLA VEGETAZIONE DELLA FORESTA UMBRA
 
-# 1 Visualizzazione RGB
-# 2 Calcolo degli indici per ciascuno, DVI, NDVI e pensavo di usare EVI
-# 3 Analiso multi temporale  NDVI fra inverno e estate e EVI fra estate 2016 e estate 2024
-# 4 Grafici comparativi delle analisi temporali
-# 5 Conclusioni
-#
-# 2 grafici a seguire 
-# 3 conclusioni
+# 1  VISUALIZAZZIONE RGB
+# 2  CALCOLO DEGLI INDICI SPETTRALI (DVI, NDVI, EVI)
+# 3  ANLISI MULTITEMPORALE E COMPARATIVA
+# 4  VISUALIZZAZZIONE GRAFICA  E ANALISI 
+# 5  CONCLUSIONI
+
+
 library(terra) # Pacchetto per l'analisi spaziale dei dati con vettori e dati raster
 library(imageRy) # Pacchetto per manipolare, visualizzare ed esportare immagini raster in R
 library(viridis) # Pacchetto per cambiare le palette di colori anche per chi è affetto da colorblindness
-library(ggplot2)
-library(patchwork)
-#impostiamo la working directory
+library(ggplot2) # per la costruzione dei grafici  
+library(patchwork) # per la composizione di più plot grafici (capacità che manca a ggplot)
+
+# Impostiamo la working directory
 setwd("C:/Users/giancarlo/Desktop/TELERILEVAMENTO_ESAME")
 
-#importiamo le immagini
+# importiamo le immagini satellitari
 wint24 <- rast("umbra_inverno_2024.tif")
 sum24 <- rast("umbra_estate_2024.tif")
 sum18 <- rast("umbra_estate_2018.tif")
 
+# Plot
 plot(wint24)
 plot(sum24)
 plot(sum18)
 
-#per plottare a colori naturaliiiii eheeeheeeheh
+# plot RGB
 im.multiframe(1,3)
 im.plotRGB(sum24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2024")
 im.plotRGB(wint24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Inverno 2024")
