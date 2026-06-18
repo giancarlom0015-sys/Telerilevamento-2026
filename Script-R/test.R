@@ -200,3 +200,28 @@ tabella = data.frame(
 #Classe Estate_2018 Estate_2024
 #1 Vegetazione rada       44.41       52.24
 #2   Foresta matura       55.59       47.76
+
+# GRAFICO COMPARATIVO GGPLOT NDVI
+
+df_long = melt(tabella, id.vars="Classe",                       # Converte la tabella in formato lungo per il grafico
+                variable.name="Periodo",
+                value.name="Percentuale")
+
+                                
+ggplot(df_long, aes(x=Classe, y=Percentuale, fill=Periodo)) +   # Crea Grafico assegnando X, Y e colore
+  geom_bar(stat="identity", position="dodge", color = "black") +  # Barre affiaancate per confrontare i periodi
+  geom_text(aes(label=round(Percentuale,1)),                    # Aggiunge i valori sulle barre
+            position=position_dodge(width=0.9),                 # Allinea il testo sulle barre affiancate
+            vjust=-0.25,                                        # Sposta leggermente sopra le barre
+            size=3) +                                           # Dimensione testo
+  scale_fill_manual(values = c("Estate_2018" = "#008B00",  # Colori distinti per i periodi
+                               "Estate_2024" = "#00FF00")) +
+                                                                    
+  ylim(0,100) +                                                 # Limiti asse Y 0-100%
+  labs(title="Copertura forestale (EVI > 0.5)",              # Titoli ed etichette
+       y="Percentuale (%)", x="Classe NDVI") +
+  theme_grey()        
+#______________________________________________________________________________________________________________
+#_______________________________________________________________________________________________________________
+
+
