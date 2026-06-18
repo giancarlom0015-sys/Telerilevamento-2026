@@ -178,9 +178,25 @@ classe_estiva24=classify(evi_sum24, rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), n
 classe_estiva18=classify(evi_sum18, rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), ncol=3, byrow=TRUE))
 
 im.multiframe(1,2)
-plot(evi_sum18, main="Classi EVI Estiva18", col=c("red","green"))
-plot(evi_sum24, main="Classi EVI Estiva24", col=c("red","green"))
-
-im.multiframe(1,2)
 plot(classe_estiva18, main="Classi EVI Estiva18", col=c("red","green"))
 plot(classe_estiva24, main="Classi EVI Estiva24", col=c("red","green"))
+
+#tabella 
+freq_24 = freq(classe_estiva24) 
+freq_18 = freq(classe_estiva18)
+
+perc_24 = freq_24$count  * 100 / ncell(classe_estiva24)
+perc_18 = freq_18$count * 100 / ncell(classe_estiva18)
+
+tabella = data.frame(
+  Classe = c("Vegetazione rada", "Foresta matura"),
+  Estate_2018 = round(perc_18,2),
+  Estate_2024= round(perc_24,2)
+ 
+  
+ )
+  print(tabella)
+
+#Classe Estate_2018 Estate_2024
+#1 Vegetazione rada       44.41       52.24
+#2   Foresta matura       55.59       47.76
