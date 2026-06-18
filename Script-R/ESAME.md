@@ -14,10 +14,10 @@ Lo scopo del progetto è quindi quello di analizzare le variazioni multitemporal
 <p align="center">
  <img src="https://github.com/giancarlom0015-sys/Telerilevamento-2026/blob/main/Script-R/img/area_studio.jpg.png?raw=true" width="1000">
 </p>
-Le immagini appartengono ai seguenti archi temporali;
-- Estate 01/07/2018 - 31/08/2018
-- Estate 01/07/2024 - 31/08/2024
-- Inverno 01/01/2024 - 31/02/2024
+Le immagini appartengono ai seguenti archi temporali:
+- Estate: 01/07/2018 - 31/08/2018
+- Estate: 01/07/2024 - 31/08/2024
+- Inverno: 01/01/2024 - 29/02/2024
   
 Gli indici utilizzati sono:
 - DVI
