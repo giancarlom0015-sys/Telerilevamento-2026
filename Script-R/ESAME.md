@@ -43,19 +43,101 @@ library(patchwork) # per la composizione di più plot grafici (capacità che man
 ````
 
 ## Importazione e set up della working directory
+
 ````r
 setwd("C:/Users/giancarlo/Desktop/TELERILEVAMENTO_ESAME")
 ````
+### IMPORTAZIONE E VISUALIZZAZIONE DELLE IMMAGINI NELLE 4 BANDE
 
-# importiamo le immagini satellitari
+<details>
+<summary>VISUALIZZA</summary>
+ 
+## INVERNO
+
 ````r
 wint24 <- rast("umbra_inverno_2024.tif") #INVERNO
-sum24 <- rast("umbra_estate_2024.tif")   #ESTATE 2018
-sum18 <- rast("umbra_estate_2018.tif")   #ESTATE 2018
+plot(wint24)
 ````
-<details>
-<summary>Clicca qui per vedere il codice di setup</summary>
 
-```r
-setwd("C:/Users/giancarlo/Desktop/TELERILEVAMENTO_ESAME")
-```
+<p align="center">
+<img src="img/Inverno2024_4_bands.png" width="800">
+</p>
+
+ 
+## ESTATE 2024
+
+````r
+sum24 <- rast("umbra_estate_2024.tif")   #ESTATE 2024
+plot(sum24)
+````
+<p align="center">
+<img src="img/Estate2024_4_bands.png" width="800">
+</p>
+
+## ESTATE 2018
+
+````r
+sum18 <- rast("umbra_estate_2018.tif")   #ESTATE 2018
+plot(sum18)
+````
+<p align="center">
+<img src="img/Estate2018_4_bands.png" width="800">
+</p></details>
+
+
+## VISUALIZZAZIONE DELLE IMMAGINI SCALA RGB
+
+````r
+im.multiframe(1,3)     # 1 riga e 3 colonne
+im.plotRGB(wint24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Inverno 2024")
+im.plotRGB(sum24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2024")
+im.plotRGB(sum18,  r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2018")
+dev.off()               #chiude il grafico
+````
+
+<p align="center">
+<img src="img/scalaRGB.png" width="800">
+</p>
+
+> Nell' immagine invernale è possibile osservare che la copertura fogliare dei faggi viene persa
+
+# Visualizzazione DVI (Difference Vegetation Index)
+
+Il **DVI** (*Difference Vegetation Index*, o Indice di Vegetazione per Differenza) è uno dei più semplici e storici indici spettrali utilizzati nel telerilevamento per il monitoraggio dello stato della vegetazione.
+
+### A cosa serve?
+Il DVI serve principalmente a **quantificare la presenza e la densità della vegetazione verde e sana** sulla superficie terrestre, discriminando i suoli coperti da flora da quelli nudi o antropizzati.
+
+Il suo funzionamento si basa sulla firma spettrale delle piante:
+* **Forte assorbimento** della luce nel canale del **Rosso (R/B1)** da parte della clorofilla per la fotosintesi.
+* **Forte riflessione** della luce nel canale del **Vicino Infrarosso (NIR/B8)** da parte della struttura cellulare interna delle foglie (mesofillo).
+
+Calcolando la semplice differenza matematica tra la riflettanza del vicino infrarosso e quella del rosso:
+
+$$DVI = NIR - Red$$
+
+L'indice permette di identificare immediatamente il vigore vegetativo. Valori molto alti indicano una vegetazione densa e in salute (come la Foresta Umbra in estate), mentre valori vicini allo zero indicano suolo nudo, rocce, acqua o vegetazione in forte stress/riposo vegetativo questo lo rendono utile
+
+## COME SI MISURA NELLA PRATICA?
+
+````r
+dvi_sum24 = sum24[["B8"]] - sum24[["B4"]]    # Calcolo DVI estate 24
+dvi_wint24= wint24[["B8"]] - wint24[["B4"]]  # Calcolo DVI inverno 24
+dvi_sum18 = sum18[["B8"]] - sum18[["B4"]]    # Calcolo DVI estate 18
+````
+> cquesto script serve a dire a R di fare la differenza fra le bande e nominarle
+
+## Plottiamo
+````r
+im.multiframe(2, 3)
+plot(dvi_wint24, main = "DVI Inverno 24' ", col=viridis::viridis(100)) # Visualizzazione DVI inverno
+plot(dvi_sum24, main = "DVI Estate 24' ", col=viridis::viridis(100))   # Visualizzazione DVI estate 24
+plot(dvi_sum18, main = "DVI Estate 18' ", col=viridis::viridis(100))   # Visualizzazione DVI estate 18
+````
+<p align="center">
+<img src="img/scalaRGB.png" width="800">
+</p>
+
+
+
+
