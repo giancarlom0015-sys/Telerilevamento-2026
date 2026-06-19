@@ -11,20 +11,21 @@ La riserva naturale Foresta Umbra è un'area naturale protetta posta all'interno
 
 Lo scopo del progetto è quindi quello di analizzare le variazioni multitemporali della copertura vegetale attravarso diversi indici al fine di valutare lo stato di salute e la risposta dell' ecosistemi forestale.
 
+
 <p align="center">
  <img src="https://github.com/giancarlom0015-sys/Telerilevamento-2026/blob/main/Script-R/img/area_studio.jpg.png?raw=true" width="1000">
 </p>
-Le immagini appartengono ai seguenti archi temporali:
-- Estate: 01/07/2018 - 31/08/2018
-- Estate: 01/07/2024 - 31/08/2024
-- Inverno: 01/01/2024 - 29/02/2024
-  
-Gli indici utilizzati sono:
-- DVI
-- NDVI
-- EVI
 
-# Metodologia🛰️ 
+
+  
+
+| Finestra Temporale | Intervallo Date | Bande Utilizzate | Indici Calcolati |
+| :--- | :--- | :---: | :---: |
+| **Estate 2018** (Pre) | 01/07/2018 - 31/08/2018 | B2, B3, B4, B8 | DVI, NDVI, EVI |
+| **Estate 2024** (Post) | 01/07/2024 - 31/08/2024 | B2, B3, B4, B8 | DVI, NDVI, EVI |
+| **Inverno 2024** | 01/01/2024 - 29/02/2024 | B2, B3, B4, B8 | DVI, NDVI, EVI |
+
+# Metodologia 
 
 ## Raccolta delle immagini📂 
 
@@ -52,5 +53,9 @@ wint24 <- rast("umbra_inverno_2024.tif") #INVERNO
 sum24 <- rast("umbra_estate_2024.tif")   #ESTATE 2018
 sum18 <- rast("umbra_estate_2018.tif")   #ESTATE 2018
 ````
+<details>
+<summary>Clicca qui per vedere il codice di setup</summary>
 
-
+```r
+setwd("C:/Users/giancarlo/Desktop/TELERILEVAMENTO_ESAME")
+```
