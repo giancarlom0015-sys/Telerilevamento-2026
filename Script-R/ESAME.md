@@ -135,7 +135,7 @@ plot(dvi_sum24, main = "DVI Estate 24' ", col=viridis::viridis(100))   # Visuali
 plot(dvi_sum18, main = "DVI Estate 18' ", col=viridis::viridis(100))   # Visualizzazione DVI estate 18
 ````
 <p align="center">
-<img src="img/scalaRGB.png" width="800">
+<img src="img/scalaRGB.png" width="1200">
 </p>
 
 
