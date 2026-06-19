@@ -31,8 +31,26 @@ Gli indici utilizzati sono:
 Le immagini satellitari provengono da [**Google Earth Engine**](https://earthengine.google.com/) selezionando l'area dell'incendio e le date indicate.
 > [!NOTE]
 > Il codice JavaScript utilizzato è quello fornito durante il corso ed è disponibile nel file Codice.js
- 
 
-  
-  
+## Innanzitutto impostiamo la libreria
+````r
+library(terra)     # Pacchetto per l'analisi spaziale dei dati con vettori e dati raster
+library(imageRy)   # Pacchetto per manipolare, visualizzare ed esportare immagini raster in R
+library(viridis)   # Pacchetto per cambiare le palette di colori anche per chi è affetto da colorblindness
+library(ggplot2)   # per la costruzione dei grafici  
+library(patchwork) # per la composizione di più plot grafici (capacità che manca a ggplot)
+````
+
+## Importazione e set up della working directory
+````r
+setwd("C:/Users/giancarlo/Desktop/TELERILEVAMENTO_ESAME")
+````
+
+# importiamo le immagini satellitari
+````r
+wint24 <- rast("umbra_inverno_2024.tif") #INVERNO
+sum24 <- rast("umbra_estate_2024.tif")   #ESTATE 2018
+sum18 <- rast("umbra_estate_2018.tif")   #ESTATE 2018
+````
+
 
