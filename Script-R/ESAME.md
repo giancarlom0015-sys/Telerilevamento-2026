@@ -33,7 +33,7 @@ Le immagini satellitari provengono da [**Google Earth Engine**](https://eartheng
 > [!NOTE]
 > Il codice JavaScript utilizzato è quello fornito durante il corso ed è disponibile nel file Codice.js
 
-## Innanzitutto impostiamo la libreria
+## impostiamo la library
 ````r
 library(terra)     # Pacchetto per l'analisi spaziale dei dati con vettori e dati raster
 library(imageRy)   # Pacchetto per manipolare, visualizzare ed esportare immagini raster in R
@@ -49,8 +49,23 @@ setwd("C:/Users/giancarlo/Desktop/TELERILEVAMENTO_ESAME")
 ````
 ### IMPORTAZIONE E VISUALIZZAZIONE DELLE IMMAGINI NELLE 4 BANDE
 
+
+````r
+wint24 <- rast("umbra_inverno_2024.tif")  
+sum24 <- rast("umbra_estate_2024.tif")    
+sum18 <- rast("umbra_estate_2018.tif")     
+````
+> carica e lecce il file
+
+````r
+plot(wint24)
+plot(sum24)
+plot(sum18)
+````
+> visualizza i dati
+
 <details>
-<summary>VISUALIZZA</summary>
+<summary><h2><b>VISUALIZZA I FILE</b></h2></summary>
  
 ## INVERNO
 
@@ -89,9 +104,11 @@ plot(sum18)
 
 ````r
 im.multiframe(1,3)     # 1 riga e 3 colonne
-im.plotRGB(wint24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Inverno 2024")
-im.plotRGB(sum24, r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2024")
-im.plotRGB(sum18,  r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2018")
+im.plotRGB(wint24), r = 3, g = 2, b = 1, title = "Foresta Umbra - Inverno 2024")
+im.plotRGB(sum24), r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2024")
+im.plotRGB(sum18),  r = 3, g = 2, b = 1, title = "Foresta Umbra - Estate 2018")
+````
+````r
 dev.off()               #chiude il grafico
 ````
 
@@ -125,19 +142,97 @@ dvi_sum24 = sum24[["B8"]] - sum24[["B4"]]    # Calcolo DVI estate 24
 dvi_wint24= wint24[["B8"]] - wint24[["B4"]]  # Calcolo DVI inverno 24
 dvi_sum18 = sum18[["B8"]] - sum18[["B4"]]    # Calcolo DVI estate 18
 ````
-> cquesto script serve a dire a R di fare la differenza fra le bande e nominarle
+> impostiamo questo script che serve per calcolare il DVI e nominarlo
 
-## Plottiamo
+## Visualizzazlione dei 3 dati 
 ````r
-im.multiframe(2, 3)
+im.multiframe(1, 3)
 plot(dvi_wint24, main = "DVI Inverno 24' ", col=viridis::viridis(100)) # Visualizzazione DVI inverno
 plot(dvi_sum24, main = "DVI Estate 24' ", col=viridis::viridis(100))   # Visualizzazione DVI estate 24
 plot(dvi_sum18, main = "DVI Estate 18' ", col=viridis::viridis(100))   # Visualizzazione DVI estate 18
 ````
+````r
+dev.off()    #chiude il grafico 
+````
+
 <p align="center">
-<img src="img/scalaRGB.png" width="1200">
+<img src="img/DVI.png" width="1200">
 </p>
 
+
+Il **DVI** mostra zone di riflettanza bassa (viola scuro) associato a suoli nudi, acque o scarsa vegetazione e valori di alta riflettanza (giallo) dovuta ad un intensa attività vegetativa. La **differenza stagionale** è molto accentuata mentre quella **temporale** (stessa stagione) è quasi impercettibile.
+
+
+## ΔDVI 
+Viene calcolato per quantificare la variazione della biomassa e della salute della vegetazione tra due momenti diversi.
+
+- Osserviamo la crescita della biomassa fogliare nella foresta con questo indice
+  
+````r
+ddvi_stagionale = dvi_sum24 - dvi_wint24                                         # Differenza DVI stagionale 2024 
+plot(ddvi_stagionale, main = "ΔDVI Stagionale' ", col=viridis::inferno(100))     # plottiamo con viridis inferno 
+````
+<p align="center">
+<img src="img/DDVI.stagione.png" width="1200">
+</p>
+
+Nel **ΔDVI** si notano zone con un intensa aumento della massa fogliare indicate giallo/arancio intenso dovute alla gemmazione della foresta nel periodo estivo e perdite della vegetazione blu scuro.
+
+# VISUALIZZAZIONE l'NDVI 
+
+L'**NDVI** (Normalized Difference Vegetation Index) è l'indice satellitare usato per misurare la **salute e la densità della vegetazione**.
+
+### Come funziona
+Sfrutta il fatto che le piante sane **assorbono il Rosso** (per fare fotosintesi) e **riflettono il Vicino Infrarosso (NIR)**.
+
+La formula è:
+$$NDVI = \frac{NIR - RED}{NIR + RED}$$
+
+### Scala dei valori (da -1 a +1)
+* **Valori negativi (< 0):** Acqua, neve, nuvole.
+* **Vicino a Zero (0 - 0.1):** Cemento, roccia, suolo nudo.
+* **Valori Bassi/Medi (0.2 - 0.5):** Prati secchi, vegetazione rada o sofferente.
+* **Valori Alti (0.6 - 1.0):** Foreste fitte, vegetazione sana e rigogliosa.
+
+### Applichiamo la formula e nominiamo i file
+
+````r
+ndvi_wint24 = (wint24[["B8"]] - wint24[["B4"]]) / (wint24[["B8"]] + wint24[["B4"]]) 
+ndvi_sum24 = (sum24[["B8"]] - sum24[["B4"]]) / (sum24[["B8"]] + sum24[["B4"]])
+ndvi_sum18 = (sum18[["B8"]] - sum18[["B4"]]) / (sum18[["B8"]] + sum18[["B4"]]) 
+````
+### procediamo alla visualizzazione
+
+````r
+im.multiframe(1,3)  #  Visualizzazione di un pannello grafico con 1 righa e 3 colonne
+plot(ndvi_wint24, main="NDVI Inverno 24' ", col=viridis::viridis(100)) 
+plot(ndvi_sum24, main="NDVI Estate 24'", col=viridis::viridis(100)) 
+plot(ndvi_sum18, main="NDVI Estate 18'", col=viridis::viridis(100)) 
+````
+
+<p align="center">
+<img src="img/NDVI.png" width="1200">
+</p>
+
+## osserviamo anche il  ΔDVI
+
+
+````r
+dndvi_stagionale = ndvi_sum24 - ndvi_wint24 #differenza NDVI
+dndvi_temporale = ndvi_sum18 - ndvi_sum24 
+````
+````r
+im.multiframe(1,2)
+plot(dndvi_stagionale, main="ΔNDVI Stagionale", col=colorRampPalette(c("red", "white", "blue"))(100))  
+plot(dndvi_temporale, main="ΔNDVI Temporale", col=colorRampPalette(c("red", "white", "blue"))(30)) 
+````
+<p align="center">
+<img src="img/DNDVI.png" width="1200">
+</p>
+osserviamo in **rosso** una perdita di biomassa fogliare, in **bianco** la stabilità di vegetazione e in **blu** un guadagno nella biomassa fogliare.
+
+- con il**ΔDVI Stagionale** si percepisce la diferenza nella perdità della massafogliare
+- con il **ΔDVI Temporale**
 
 
 
