@@ -229,6 +229,7 @@ plot(dndvi_temporale, main="ΔNDVI Temporale", col=colorRampPalette(c("red", "wh
 <p align="center">
 <img src="img/DNDVI.png" width="1200">
 </p>
+
 osserviamo in **rosso** una perdita di biomassa fogliare, in **bianco** la stabilità di vegetazione e in **blu** un guadagno nella biomassa fogliare.
 
 - con il**ΔDVI Stagionale** si percepisce la diferenza nella perdità della massafogliare
