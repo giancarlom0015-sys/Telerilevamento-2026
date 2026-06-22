@@ -268,9 +268,10 @@ I parametri standard utilizzati (derivati dai sensori MODIS/Landsat/Sentinel) so
 
 
 
-Grazie a questa formulazione, l'EVI riesce a "isolare" il segnale puro della vegetazione fitta, permettendoci di mappare l'effettiva eterogeneità e lo stato di salute della foresta nelle due stagioni estive a confronto senza incorrere nel fenomeno della saturazione.
+Grazie a questa formulazione, l'EVI riesce a "isolare" il segnale della vegetazione fitta, permettendoci di mappare l'effettiva eterogeneità e lo stato di salute della foresta nelle due stagioni estive a confronto senza incorrere nel fenomeno della saturazione.
 
 ### calcoliamo EVI
+
 ````r
 evi_sum24 = 2.5 * ((sum24[[4]] - sum24[[3]]) / (sum24[[4]] + 6 * sum24[[3]] - 7.5 * sum24[[1]] + 1))  #formula e nominazione
 evi_sum18 = 2.5 * ((sum18[[4]] - sum18[[3]]) / (sum18[[4]] + 6 * sum18[[3]] - 7.5 * sum18[[1]] + 1))  #formula e nominazione
