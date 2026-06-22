@@ -34,7 +34,7 @@ Le immagini satellitari provengono da [**Google Earth Engine**](https://eartheng
 <details>
 <summary>
  
- # Setup dell'Ambiente, Importazione Dati e Visualizzazione RGB
+ # Setup dell' ambiente , Importazione Dati e Visualizzazione RGB
  
 </summary>
  
