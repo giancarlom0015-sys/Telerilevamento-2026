@@ -2,8 +2,6 @@
 ## Esame telerilevamento geo-ecologico in R - 2026
 ### Giancarlo Maggi
 
-/
-/
 
 # INTRODUZIONE
 ###
@@ -33,6 +31,13 @@ Le immagini satellitari provengono da [**Google Earth Engine**](https://eartheng
 > [!NOTE]
 > Il codice JavaScript utilizzato è quello fornito durante il corso ed è disponibile nel file Codice.js
 
+<details>
+<summary>
+ 
+ # Setup dell'Ambiente, Importazione Dati e Visualizzazione RGB
+ 
+</summary>
+ 
 ## impostiamo la library
 ````r
 library(terra)     # Pacchetto per l'analisi spaziale dei dati con vettori e dati raster
@@ -40,7 +45,7 @@ library(imageRy)   # Pacchetto per manipolare, visualizzare ed esportare immagin
 library(viridis)   # Pacchetto per cambiare le palette di colori anche per chi è affetto da colorblindness
 library(ggplot2)   # per la costruzione dei grafici  
 library(patchwork) # per la composizione di più plot grafici (capacità che manca a ggplot)
-library(reshape2)
+library(reshape2)  # trasforma la struttura dei dati  
 ````
 
 ## Importazione e set up della working directory
@@ -56,7 +61,7 @@ wint24 <- rast("umbra_inverno_2024.tif")
 sum24 <- rast("umbra_estate_2024.tif")    
 sum18 <- rast("umbra_estate_2018.tif")     
 ````
-> carica e lecce il file
+> carica e legge il file
 
 ````r
 plot(wint24)
@@ -65,9 +70,8 @@ plot(sum18)
 ````
 > visualizza i dati
 
-<details>
-<summary><h2><b>VISUALIZZA I FILE</b></h2></summary>
- 
+
+   
 ## INVERNO
 
 ````r
@@ -98,7 +102,7 @@ plot(sum18)
 ````
 <p align="center">
 <img src="img/Estate2018_4_bands.png" width="800">
-</p></details>
+</p>
 
 
 ## VISUALIZZAZIONE DELLE IMMAGINI SCALA RGB
@@ -118,7 +122,14 @@ dev.off()               #chiude il grafico
 </p>
 
 > Nell' immagine invernale è possibile osservare che la copertura fogliare dei faggi viene persa
+</details>
 
+<details>
+ <summary>
+  
+ # DVI, NDVI e EVI
+ 
+ </summary>
 # DVI (Difference Vegetation Index)
 
 Il **DVI** (*Difference Vegetation Index*, o Indice di Vegetazione per Differenza) è uno dei più semplici e storici indici spettrali utilizzati nel telerilevamento per il monitoraggio dello stato della vegetazione.
@@ -231,7 +242,7 @@ plot(dndvi_temporale, main="ΔNDVI Temporale", col=colorRampPalette(c("red", "wh
 <img src="img/DNDVI..png" width="1200">
 </p>
 
-osserviamo in **rosso**(valori <1) una perdita di biomassa fogliare, in **bianco**(valore=0) la stabilità di vegetazione e in **blu**(valori >1) un guadagno nella biomassa fogliare.
+osserviamo in **rosso** (valori <1) una perdita di biomassa fogliare, in **bianco** (valore = 0) la stabilità di vegetazione e in **blu**(valori >1) un guadagno nella biomassa fogliare.
 
 - Con il **ΔDVI Stagionale** si percepisce la diferenza nella perdità della massafogliare
 - Con il **ΔDVI Temporale** si osserva una colorazione tendente allo 0.
@@ -288,7 +299,13 @@ plot(devi_temporale, main = "ΔEVI Temporale", col=colorRampPalette(c("red","whi
 
 > la vegetazione sana generalmente varia fra 0.20 e 0.80
 
-# ANALISI MULTITEMPORALE
+</details>
+<details>
+ <summary>
+  
+  # ANALISI MULTITEMPORALE
+ </summary>
+
 
 In questa sessione viene eseguito un confronto multitemporale degli indici **NDVI** ed **EVI** tra il 2018 e il 2024. 
 L'analisi multitemporale serve a **identificare e quantificare i mutamenti della copertura vegetale nel corso del tempo**, consentendo di monitorare lo stato di salute della foresta matura e mappare eventuali dinamiche di degradazione o rigenerazione ambientale.
@@ -309,7 +326,7 @@ classe_estiva18=classify(ndvi_sum18, rcl=matrix(c(-Inf,soglia,0, soglia,Inf,1), 
 
 ````r
 im.multiframe(3,1)
-plot(classe_invernale, main="Classi NDVI Invernale", col=c("red","green"))
+plot(classe_invernale, main="Classi NDVI Invernale", col=c("red","green")) 
 plot(classe_estiva24, main="Classi NDVI Estiva24", col=c("red","green"))
 plot(classe_estiva18, main="Classi NDVI Estiva18", col=c("red","green"))
 ````
@@ -327,21 +344,22 @@ freq_18 = freq(classe_estiva18)     #calcola quanti pixel appartengono a 0 e qua
 freq_wint = freq(classe_invernale)  #calcola quanti pixel appartengono a 0 e quanti a 1 in maniera assoluta
 ````
 ````r
-perc_24 = freq_24$count  * 100 / ncell(classe_estiva24)       #qui lo si calcola in percentuale
-perc_18 = freq_18$count * 100 / ncell(classe_estiva18)        #qui lo si calcola in percentuale
-perc_wint = freq_wint$count * 100 / ncell(classe_invernale)   #qui lo si calcola in percentuale
+perc_24 = freq_24$count  * 100 / ncell(classe_estiva24)       #conta il numero di pixel 0 e 1 e fa percentuale
+perc_18 = freq_18$count * 100 / ncell(classe_estiva18)        #conta il numero di pixel 0 e 1 e fa percentuale
+perc_wint = freq_wint$count * 100 / ncell(classe_invernale)   #conta il numero di pixel 0 e 1 e fa percentuale
 ````
+
 ### Visualizzazione nella tabella
 
 ````r
-tabella = data.frame(    #inserisce i dati una tabella
-  Classe = c("Vegetazione Diradata / Suolo", "Foresta matura"),
-  Estate_2018 = round(perc_18,2),      # il 2 indica le cifre decimali 
+tabella = data.frame(                                                      # organizza i dati una tabella
+  Classe = c("Vegetazione Diradata / Suolo", "Foresta matura"),            # indica quali sono gli argomenti
+  Estate_2018 = round(perc_18,2),                                          # il 2 indica le cifre decimali 
   Estate_2024= round(perc_24,2),
   Inverno = round(perc_wint,2)
   
  )
- tabella        #visualizza la tabella
+ tabella                                                                    #visualizza la tabella su
 ````
 
 | Classe | Estate 2018 (%) | Estate 2024 (%) | Inverno (%) |
@@ -350,23 +368,24 @@ tabella = data.frame(    #inserisce i dati una tabella
 | **Foresta matura** | 67.34 | 59.99 | 39.30 |
 
 ## Grafico comparativo GGPLOT NDVI
+
 ````r
 df_long = melt(tabella, id.vars="Classe",                       # Converte la tabella in formato lungo per il grafico
                 variable.name="Periodo",
                 value.name="Percentuale")
 
                                 
-ggplot(df_long, aes(x=Classe, y=Percentuale, fill=Periodo)) +   # Crea Grafico assegnando X, Y e colore
-  geom_bar(stat="identity", position="dodge", color = "black") +  # Barre affiaancate per confrontare i periodi
-  geom_text(aes(label=round(Percentuale,1)),                    # Aggiunge i valori sulle barre
-            position=position_dodge(width=0.9),                 # Allinea il testo sulle barre affiancate
-            vjust=-0.25,                                        # Sposta leggermente sopra le barre
-            size=3) +                                           # Dimensione testo
-  scale_fill_manual(values = c("Estate_2018" = "#008B00",  # Colori distinti per i periodi
+ggplot(df_long, aes(x=Classe, y=Percentuale, fill=Periodo)) +     # Crea Grafico assegnando X, Y e colore pieno
+  geom_bar(stat="identity", position="dodge", color = "black") +  # Barre affiaancate per confrontare i periodi 
+  geom_text(aes(label=round(Percentuale,1)),                      # Aggiunge i valori sulle barre
+            position=position_dodge(width=0.9),                   # Allinea il testo sulle barre affiancate
+            vjust=-0.25,                                          # Sposta leggermente sopra le barre
+            size=3) +                                             # Dimensione testo
+  scale_fill_manual(values = c("Estate_2018" = "#008B00",         # Colori distinti per i periodi
                                "Estate_2024" = "#00FF00",
                                "Inverno" = "lightskyblue")) +                                      
-  ylim(0,100) +                                                 # Limiti asse Y 0-100%
-  labs(title="Copertura forestale (NDVI > 0.6)",              # Titoli ed etichette
+  ylim(0,100) +                                                   # Limiti asse Y 0-100%
+  labs(title="Copertura forestale (NDVI > 0.6)",                  # Titoli ed etichette
        y="Percentuale (%)", x="Classe NDVI") +
   theme_grey()        
 ````
@@ -421,32 +440,38 @@ tabella = data.frame(
 # GRAFICO COMPARATIVO GGPLOT EVI
 
   ````r
-df_long = melt(tabella, id.vars="Classe",                       # Converte la tabella in formato lungo per il grafico
-                variable.name="Periodo",
+df_long = melt(tabella, id.vars="Classe",                          # Converte la tabella in formato lungo per il grafico
+                variable.name="Periodo",                           
                 value.name="Percentuale")
 
                                 
-ggplot(df_long, aes(x=Classe, y=Percentuale, fill=Periodo)) +   # Crea Grafico assegnando X, Y e colore
-  geom_bar(stat="identity", position="dodge", color = "black") +  # Barre affiaancate per confrontare i periodi
-  geom_text(aes(label=round(Percentuale,1)),                    # Aggiunge i valori sulle barre
-            position=position_dodge(width=0.9),                 # Allinea il testo sulle barre affiancate
-            vjust=-0.25,                                        # Sposta leggermente sopra le barre
-            size=3) +                                           # Dimensione testo
-  scale_fill_manual(values = c("Estate_2018" = "#008B00",  # Colori distinti per i periodi
+ggplot(df_long, aes(x=Classe, y=Percentuale, fill=Periodo)) +      # Crea Grafico assegnando X, Y e colore
+  geom_bar(stat="identity", position="dodge", color = "black") +   # Barre affiaancate per confrontare i periodi
+  geom_text(aes(label=round(Percentuale,1)),                       # Aggiunge i valori sulle barre
+            position=position_dodge(width=0.9),                    # Allinea il testo sulle barre affiancate
+            vjust=-0.25,                                           # Sposta leggermente sopra le barre
+            size=3) +                                              # Dimensione testo
+  scale_fill_manual(values = c("Estate_2018" = "#008B00",          # Colori distinti per i periodi
                                "Estate_2024" = "#00FF00")) +
                                                                     
-  ylim(0,100) +                                                 # Limiti asse Y 0-100%
-  labs(title="Copertura forestale (EVI > 0.5)",              # Titoli ed etichette
+  ylim(0,100) +                                                    # Limiti asse Y 0-100%
+  labs(title="Copertura forestale (EVI > 0.5)",                    # Titoli ed etichette
        y="Percentuale (%)", x="Classe NDVI") +
-  theme_grey()        
+  theme_grey()                                                     # Colore tema
 
   ````
 
 <p align="center">
 <img src="img/TabellaEVI.png" width="1200">
 </p>
+</details>
 
 # CONCLUSIONI
+
+L'osservazione invernale ha evidenziato una netta perdita della copertura fogliare quantificato dall' indice NDVI, che nel dataset invernale classifica il 60,7% dell'area come "vegetazione diradata/suolo" contro il 39,3% come foresta matura. il  ΔDVI stagionale ha poi ulteriormente  confermato questa differenza
+Nel confronto fra i periodi estivi inoltre, attraverso la classificazione NDVI, la classe "foresta matura" ha subito una contrazione della copertura vegetale passando dal 67,34% dell' estate 2018 al 59,99% dell' estate 2024 con un aumento dell'area classificata come vegetazione diradata o suolo.
+Infine l'EVI interviene al posto dell'NDVI perchè esso tende a saturarsi in caso di altissima densita confermando la diminuzion della "Foresta matura" passando da 55,6 del 2018 al 47,8 del 2024   
+Questi dati potrebbero quindi indicare una situazione di stress dell' ecosistema forestale dovuta a cambiamenti climatici che impattano nella fenologia o semplicemente una riduzione causata da incendi che spesso impattano l' area.
 
 
 
