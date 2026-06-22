@@ -39,12 +39,12 @@ Le immagini satellitari provengono da [**Google Earth Engine**](https://eartheng
 </summary>
  
 ## impostiamo la library
+
 ````r
 library(terra)     # Pacchetto per l'analisi spaziale dei dati con vettori e dati raster
 library(imageRy)   # Pacchetto per manipolare, visualizzare ed esportare immagini raster in R
 library(viridis)   # Pacchetto per cambiare le palette di colori anche per chi è affetto da daltonismo
 library(ggplot2)   # per la costruzione dei grafici  
-library(patchwork) # per la composizione di più plot grafici (capacità che manca a ggplot)
 library(reshape2)  # trasforma la struttura dei dati  
 ````
 
