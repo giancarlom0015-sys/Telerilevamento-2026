@@ -130,6 +130,7 @@ dev.off()               #chiude il grafico
  # DVI, NDVI e EVI
  
  </summary>
+ 
 # DVI (Difference Vegetation Index)
 
 Il **DVI** (*Difference Vegetation Index*, o Indice di Vegetazione per Differenza) è uno dei più semplici e storici indici spettrali utilizzati nel telerilevamento per il monitoraggio dello stato della vegetazione.
